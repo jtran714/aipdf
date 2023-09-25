@@ -2,7 +2,7 @@
 import { uploadToS3 } from "@/lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import { Inbox, Loader2 } from "lucide-react";
-import React from "react";
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -10,9 +10,9 @@ import { useRouter } from "next/navigation";
 
 // https://github.com/aws/aws-sdk-js-v3/issues/4126
 
-const FileUpload = () => {
+export default function FileUpload() {
   const router = useRouter();
-  const [uploading, setUploading] = React.useState(false);
+  const [uploading, setUploading] = useState(false);
   const { mutate, isLoading } = useMutation({
     mutationFn: async ({
       file_key,
@@ -65,7 +65,7 @@ const FileUpload = () => {
       }
     },
   });
-  
+
   return (
     <div className="p-2 bg-white rounded-xl">
       <div
@@ -94,4 +94,3 @@ const FileUpload = () => {
   );
 };
 
-export default FileUpload;
