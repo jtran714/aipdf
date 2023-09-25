@@ -1,6 +1,6 @@
 import AWS from "aws-sdk"
 
-export async function uploadToS3(file:File) {
+export async function uploadToS3(file: File) {
     try {
         AWS.config.update({
             accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_KEY_ID,
@@ -29,7 +29,15 @@ export async function uploadToS3(file:File) {
         await upload.then(data => {
             console.log("success uploaded to s3", file_key)
         })
+        return Promise.resolve({
+            file_key,
+            file_name: file.name
+        })
 
      } catch (error) {}
+}
 
+export function getS3Url(file_key: string) {
+    const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.us-west-1.amazonaws.com/${file_key}`
+    return url;
 }

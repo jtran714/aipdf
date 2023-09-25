@@ -23,3 +23,5 @@ export const messages = pgTable("messages", {
   
   // drizzle-orm
   // drizzle-kit
+
+  //npx drizzle-kit studio --host 127.0.0.1
