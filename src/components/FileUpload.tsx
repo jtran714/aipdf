@@ -3,7 +3,7 @@
 import { uploadToS3 } from "@/lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import { Inbox, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 export default function FileUpload() {
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { mutate, isLoading } = useMutation({
     mutationFn: async ({
       file_key,
@@ -27,6 +28,13 @@ export default function FileUpload() {
       return response.data;
     },
   });
+
+  useEffect(() => {
+    setIsMounted(false)
+  },[])
+  if (!isMounted) {
+    return null;
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
