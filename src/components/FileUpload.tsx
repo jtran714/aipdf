@@ -3,7 +3,7 @@
 import { uploadToS3 } from "@/lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import { Inbox, Loader2 } from "lucide-react";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -28,6 +28,7 @@ export default function FileUpload() {
       return response.data;
     },
   });
+
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
@@ -66,6 +67,14 @@ export default function FileUpload() {
     },
   });
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, [])
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div className="p-2 bg-white rounded-xl">
       <div
@@ -80,8 +89,7 @@ export default function FileUpload() {
             {/* loading state */}
             <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
             <p className="mt-2 text-sm text-slate-400">
-              Spilling Tea to GPT...
-            </p>
+Spilling Tea to GPT...</p>
           </>
         ) : (
           <>
